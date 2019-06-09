@@ -11,7 +11,8 @@ class Chitter < Sinatra::Base
     @name = params[:name]
     @email = params[:email]
     @password = params[:password]
-    $user = User.new(@name,@email,@password)
+    @username = params[:username]
+    $user = User.new(@name,@email,@password,@username)
     redirect '/home'
   end
 
