@@ -1,27 +1,23 @@
 require 'sinatra/base'
+require './lib/user.rb'
 
 class Chitter < Sinatra::Base
-
-  enable :sessions
 
   get '/' do
     erb(:index)
   end
 
   post '/sign-up' do
-    session[:name] = params[:name]
+    @name = params[:name]
+    @email = params[:email]
+    @password = params[:password]
+    $user = User.new(@name,@email,@password)
     redirect '/home'
   end
 
   get '/home' do
-    @name = session[:name]
-    @peep = session[:peep]
+    @display_name = $user.name
     erb(:home)
-  end
-
-  post '/post-peep' do
-    session[:peep] = params[:peep]
-    redirect '/home'
   end
 
   run! if app_file == $0
